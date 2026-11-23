@@ -1,0 +1,56 @@
+backend:
+  name: github
+  repo: a1an2hang/my-blog
+  branch: main
+
+locale: "zh_Hans"
+
+# 默认全局媒体库
+media_folder: "assets/img"
+public_folder: "img"
+
+collections:
+  - name: "travel"
+    label: "✈️ 旅行游记"
+    label_singular: "旅行游记"
+    folder: "content/post/travel"
+    create: true
+    path: "{{slug}}/index"
+    media_folder: ""
+    public_folder: ""
+    slug: "{{slug}}"
+    summary: "{{title}} - {{date}}"
+    sortable_fields: ["commit_date", "title", "date"]
+    view_filters:
+      - label: "全部游记"
+        field: "categories"
+        pattern: "旅行"
+    fields:
+      - { label: "游记标题", name: "title", widget: "string", hint: "例如：京都的秋天：红叶与古寺的诗意" }
+      - { label: "链接别名 (Slug)", name: "slug", widget: "string", hint: "网址中的英文字符，例如：kyoto-autumn" }
+      - { label: "一句话简介", name: "description", widget: "string", hint: "显示在首页卡片上的摘要" }
+      - { label: "发布日期", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "封面图片", name: "image", widget: "image", hint: "游记在首页的精美大封面" }
+      - { label: "分类", name: "categories", widget: "list", default: ["旅行"] }
+      - { label: "标签", name: "tags", widget: "list", default: ["旅行", "风景"] }
+      - { label: "游记正文", name: "body", widget: "markdown", hint: "在此编写你的文字感受，支持直接粘贴或拖拽插入照片" }
+
+  - name: "life"
+    label: "☕ 生活随笔"
+    label_singular: "生活随笔"
+    folder: "content/post/life"
+    create: true
+    path: "{{slug}}/index"
+    media_folder: ""
+    public_folder: ""
+    slug: "{{slug}}"
+    summary: "{{title}} - {{date}}"
+    fields:
+      - { label: "文章标题", name: "title", widget: "string" }
+      - { label: "链接别名 (Slug)", name: "slug", widget: "string" }
+      - { label: "一句话简介", name: "description", widget: "string" }
+      - { label: "发布日期", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "封面图片 (可选)", name: "image", widget: "image", required: false }
+      - { label: "分类", name: "categories", widget: "list", default: ["生活"] }
+      - { label: "标签", name: "tags", widget: "list", default: ["生活", "感悟"] }
+      - { label: "正文内容", name: "body", widget: "markdown" }
