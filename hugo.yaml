@@ -1,4 +1,4 @@
-baseURL: "https://my-travel-blog.pages.dev/"
+baseURL: "https://my-blog-4tj.pages.dev/"
 locale: zh-cn
 title: "Marco 的旅行日记"
 theme: hugo-theme-stack
