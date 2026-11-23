@@ -1,0 +1,137 @@
+baseURL: "https://my-travel-blog.pages.dev/"
+locale: zh-cn
+title: "Marco 的旅行日记"
+theme: hugo-theme-stack
+defaultContentLanguage: zh-cn
+hasCJKLanguage: true
+
+outputs:
+  home:
+    - html
+    - rss
+  page:
+    - html
+    - json
+  section:
+    - html
+    - rss
+
+pagination:
+  pagerSize: 10
+
+permalinks:
+  post: "/p/:slug/"
+  page: "/:slug/"
+
+params:
+  mainSections:
+    - post
+  rssFullContent: true
+  favicon: img/favicon.ico
+
+  footer:
+    since: 2024
+    customText: ""
+
+  dateFormat:
+    published: "2006-01-02"
+    lastUpdated: "2006-01-02"
+
+  sidebar:
+    emoji: "🌍"
+    subtitle: "用脚步丈量世界，用镜头记录美好"
+    avatar: "img/avatar.png"
+
+  article:
+    headingAnchor: false
+    math: false
+    toc: true
+    readingTime: false
+    license:
+      enabled: true
+      default: "Licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)"
+
+  widgets:
+    homepage:
+      - type: search
+      - type: archives
+        params:
+          limit: 5
+      - type: categories
+        params:
+          limit: 10
+      - type: tag-cloud
+        params:
+          limit: 20
+    page:
+      - type: toc
+
+  colorScheme:
+    toggle: true
+    default: dark
+
+  imageProcessing:
+    autoOrient: true
+    content:
+      widths:
+        - 800
+        - 1600
+        - 2400
+      enabled: true
+    thumbnail:
+      enabled: true
+
+  comments:
+    enabled: true
+    provider: giscus
+    giscus:
+      repo: ""
+      repoID: ""
+      category: "Announcements"
+      categoryID: ""
+      mapping: "pathname"
+      lightTheme: "light"
+      darkTheme: "dark_dimmed"
+      reactionsEnabled: 1
+      emitMetadata: 0
+      inputPosition: "top"
+      lang: "zh-CN"
+      strict: 0
+      loading: "lazy"
+
+menu:
+  main:
+    - identifier: home
+      name: 首页
+      url: /
+      weight: -100
+      params:
+        icon: home
+
+  social:
+    - identifier: github
+      name: GitHub
+      url: "https://github.com"
+      params:
+        icon: brand-github
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  tableOfContents:
+    endLevel: 4
+    ordered: true
+    startLevel: 2
+  highlight:
+    noClasses: false
+
+related:
+  includeNewer: true
+  threshold: 60
+  toLower: false
+  indices:
+    - name: tags
+      weight: 100
+    - name: categories
+      weight: 200

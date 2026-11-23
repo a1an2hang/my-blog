@@ -1,0 +1,182 @@
+/* ==========================================================================
+   🍂 暖阳琥珀（Warm Amber / Golden Glow）治愈旅行主题
+   ========================================================================== */
+
+/* 核心变量重定义 */
+:root {
+    /* 暖黄色彩调色板 */
+    --warm-gradient: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #d97706 100%);
+    --warm-gradient-soft: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(251, 191, 36, 0.15) 100%);
+    --warm-primary: #f59e0b;       /* 琥珀暖黄 */
+    --warm-bright: #fbbf24;        /* 亮金黄 */
+    --warm-deep: #d97706;          /* 焦糖深金 */
+    --warm-glow: rgba(245, 158, 11, 0.28);
+
+    /* 亮色模式：温暖燕麦暖阳 */
+    --body-background: #faf8f5;
+    --body-text-color: #57534e;
+    --accent-color: #d97706;
+    --accent-color-darker: #b45309;
+    --accent-color-text: #ffffff;
+
+    --card-background: rgba(255, 255, 255, 0.92);
+    --card-background-selected: #fef3c7;
+    --card-text-color-main: #292524;
+    --card-text-color-secondary: #78716c;
+    --card-text-color-tertiary: #a8a29e;
+    --card-border-radius: 16px;
+    --card-shadow: 0 8px 30px rgba(180, 83, 9, 0.08);
+
+    /* 暗色模式：曜石暖碳夜景 */
+    &[data-scheme="dark"] {
+        --body-background: #141210;
+        --body-text-color: #d6d3d1;
+        --accent-color: #fbbf24;
+        --accent-color-darker: #f59e0b;
+        --accent-color-text: #1c1917;
+
+        --card-background: rgba(30, 27, 24, 0.82);
+        --card-background-selected: rgba(46, 40, 34, 0.9);
+        --card-text-color-main: #fafaf9;
+        --card-text-color-secondary: #a8a29e;
+        --card-text-color-tertiary: #78716c;
+        --card-separator-color: rgba(245, 158, 11, 0.15);
+        --card-shadow: 0 12px 35px -8px rgba(0, 0, 0, 0.7), 0 0 18px -4px rgba(245, 158, 11, 0.12);
+    }
+}
+
+/* 页面整体背景漫射光晕 */
+body {
+    background-image: 
+        radial-gradient(at 10% 15%, rgba(245, 158, 11, 0.06) 0px, transparent 50%),
+        radial-gradient(at 90% 85%, rgba(217, 119, 6, 0.05) 0px, transparent 50%);
+    background-attachment: fixed;
+    transition: background 0.4s ease, color 0.4s ease;
+}
+
+[data-scheme="dark"] body {
+    background-image: 
+        radial-gradient(circle at 15% 15%, rgba(245, 158, 11, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 85% 75%, rgba(217, 119, 6, 0.10) 0%, transparent 50%);
+    background-attachment: fixed;
+}
+
+/* 卡片温润毛玻璃与悬浮金光 */
+.article-list--compact article,
+.article-list--tile article,
+.article-list article,
+.widget,
+.article-page {
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(245, 158, 11, 0.12);
+    border-radius: var(--card-border-radius) !important;
+    box-shadow: var(--card-shadow);
+    transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.article-list article:hover,
+.widget:hover {
+    transform: translateY(-4px);
+    border-color: rgba(245, 158, 11, 0.35);
+    box-shadow: 0 16px 36px -8px rgba(245, 158, 11, 0.22);
+}
+
+/* 标题悬停：暖金色流光过渡 */
+.article-title, 
+.site-name {
+    transition: color 0.3s ease;
+}
+
+.article-list article:hover .article-title {
+    background: var(--warm-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* 侧边栏头像：温润金环环绕 */
+.sidebar .site-avatar img {
+    border-radius: 50%;
+    padding: 3px;
+    background: var(--warm-gradient);
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.35);
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.5s ease;
+}
+
+.sidebar .site-avatar img:hover {
+    transform: scale(1.06);
+    box-shadow: 0 0 28px rgba(251, 191, 36, 0.55);
+}
+
+/* 标签云与文章标签：温暖琥珀色胶囊 */
+.article-tags a,
+.tag-cloud a {
+    background: var(--warm-gradient-soft) !important;
+    border: 1px solid rgba(245, 158, 11, 0.25) !important;
+    color: var(--accent-color) !important;
+    border-radius: 20px !important;
+    padding: 4px 14px !important;
+    font-size: 1.3rem !important;
+    transition: all 0.3s ease !important;
+}
+
+.article-tags a:hover,
+.tag-cloud a:hover {
+    background: var(--warm-gradient) !important;
+    color: #1c1917 !important;
+    font-weight: 500;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+    border-color: transparent !important;
+}
+
+/* 分类徽章：焦糖暖黄质感 */
+.article-category a {
+    background: var(--warm-gradient) !important;
+    color: #1c1917 !important;
+    border-radius: 6px;
+    padding: 3px 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 10px rgba(245, 158, 11, 0.25);
+}
+
+/* 搜索框：琥珀色聚焦微光 */
+.search-form input {
+    border-radius: 25px !important;
+    border: 1px solid rgba(245, 158, 11, 0.22) !important;
+    background: rgba(245, 158, 11, 0.04) !important;
+    transition: all 0.3s ease !important;
+}
+
+.search-form input:focus {
+    border-color: var(--warm-primary) !important;
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.35) !important;
+    outline: none !important;
+}
+
+/* 导航菜单高亮 */
+.menu li.current a {
+    background: linear-gradient(90deg, rgba(245, 158, 11, 0.18) 0%, transparent 100%) !important;
+    border-left: 3px solid var(--warm-primary);
+    color: var(--accent-color) !important;
+}
+
+/* 滚动条定制：暖金色渐变滑块 */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #f59e0b, #d97706);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, #fbbf24, #f59e0b);
+}
