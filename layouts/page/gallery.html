@@ -1,0 +1,147 @@
+{{ define "body-class" }}template-gallery{{ end }}
+
+{{ define "main" }}
+<header class="gallery-header">
+    <h1 class="gallery-title">{{ .Title }}</h1>
+    {{ with .Description }}
+        <p class="gallery-subtitle">{{ . }}</p>
+    {{ end }}
+
+    <!-- 地点分类筛选标签 -->
+    <div class="gallery-filter-tabs">
+        <button class="gallery-filter-btn active" data-filter="all">全部足迹</button>
+        {{ $locations := slice }}
+        {{ range .Params.photos }}
+            {{ if .location }}
+                {{ $locations = $locations | append .location }}
+            {{ end }}
+        {{ end }}
+        {{ range ($locations | uniq) }}
+            <button class="gallery-filter-btn" data-filter="{{ . }}">{{ . }}</button>
+        {{ end }}
+    </div>
+</header>
+
+<!-- 照片网格瀑布流 -->
+<div class="gallery-grid">
+    {{ range $index, $photo := .Params.photos }}
+    <div class="gallery-card" data-location="{{ $photo.location }}" data-index="{{ $index }}" data-src="{{ $photo.image }}" data-title="{{ $photo.title }}" data-desc="{{ $photo.desc }}">
+        <div class="gallery-card-inner">
+            <img src="{{ $photo.image }}" alt="{{ $photo.title }}" loading="lazy" class="gallery-img" />
+            <div class="gallery-card-overlay">
+                {{ with $photo.location }}
+                    <span class="gallery-card-tag">{{ . }}</span>
+                {{ end }}
+                <h3 class="gallery-card-title">{{ $photo.title }}</h3>
+                {{ with $photo.desc }}
+                    <p class="gallery-card-desc">{{ . }}</p>
+                {{ end }}
+                {{ with $photo.date }}
+                    <span class="gallery-card-date">{{ . }}</span>
+                {{ end }}
+            </div>
+        </div>
+    </div>
+    {{ end }}
+</div>
+
+<!-- 沉浸式灯箱 Lightbox 弹窗 -->
+<div id="gallery-lightbox" class="gallery-lightbox" aria-hidden="true">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-container">
+        <button class="lightbox-close" aria-label="关闭">&times;</button>
+        <button class="lightbox-prev" aria-label="上一张">&#10094;</button>
+        <div class="lightbox-content">
+            <img id="lightbox-img" src="" alt="" />
+            <div class="lightbox-caption">
+                <h3 id="lightbox-title"></h3>
+                <p id="lightbox-desc"></p>
+            </div>
+        </div>
+        <button class="lightbox-next" aria-label="下一张">&#10095;</button>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // 1. 地点筛选
+    const filterBtns = document.querySelectorAll(".gallery-filter-btn");
+    const cards = document.querySelectorAll(".gallery-card");
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            filterBtns.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            const filter = btn.getAttribute("data-filter");
+
+            cards.forEach(card => {
+                if (filter === "all" || card.getAttribute("data-location") === filter) {
+                    card.style.display = "block";
+                    setTimeout(() => card.style.opacity = "1", 10);
+                } else {
+                    card.style.opacity = "0";
+                    setTimeout(() => card.style.display = "none", 250);
+                }
+            });
+        });
+    });
+
+    // 2. 灯箱 Lightbox
+    const lightbox = document.getElementById("gallery-lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+    const lightboxTitle = document.getElementById("lightbox-title");
+    const lightboxDesc = document.getElementById("lightbox-desc");
+    const closeBtn = document.querySelector(".lightbox-close");
+    const prevBtn = document.querySelector(".lightbox-prev");
+    const nextBtn = document.querySelector(".lightbox-next");
+    const overlay = document.querySelector(".lightbox-overlay");
+
+    let currentIndex = 0;
+    const visibleCards = () => Array.from(cards).filter(c => c.style.display !== "none");
+
+    function openLightbox(index) {
+        const list = visibleCards();
+        if (index < 0) index = list.length - 1;
+        if (index >= list.length) index = 0;
+        currentIndex = index;
+
+        const card = list[currentIndex];
+        lightboxImg.src = card.getAttribute("data-src");
+        lightboxTitle.textContent = card.getAttribute("data-title") || "";
+        lightboxDesc.textContent = card.getAttribute("data-desc") || "";
+
+        lightbox.classList.add("active");
+        lightbox.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+    }
+
+    function closeLightbox() {
+        lightbox.classList.remove("active");
+        lightbox.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+    }
+
+    cards.forEach((card) => {
+        card.addEventListener("click", () => {
+            const list = visibleCards();
+            const idx = list.indexOf(card);
+            openLightbox(idx);
+        });
+    });
+
+    closeBtn.addEventListener("click", closeLightbox);
+    overlay.addEventListener("click", closeLightbox);
+    prevBtn.addEventListener("click", (e) => { e.stopPropagation(); openLightbox(currentIndex - 1); });
+    nextBtn.addEventListener("click", (e) => { e.stopPropagation(); openLightbox(currentIndex + 1); });
+
+    document.addEventListener("keydown", (e) => {
+        if (!lightbox.classList.contains("active")) return;
+        if (e.key === "Escape") closeLightbox();
+        if (e.key === "ArrowLeft") openLightbox(currentIndex - 1);
+        if (e.key === "ArrowRight") openLightbox(currentIndex + 1);
+    });
+});
+</script>
+
+{{ partialCached "footer/footer" . }}
+{{ end }}

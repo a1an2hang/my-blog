@@ -54,3 +54,22 @@ collections:
       - { label: "分类", name: "categories", widget: "list", default: ["生活"] }
       - { label: "标签", name: "tags", widget: "list", default: ["生活", "感悟"] }
       - { label: "正文内容", name: "body", widget: "markdown" }
+
+  - name: "pages"
+    label: "🖼️ 博客相册管理"
+    files:
+      - label: "📷 旅途画廊"
+        name: "gallery"
+        file: "content/page/gallery/index.md"
+        fields:
+          - { label: "相册标题", name: "title", widget: "string" }
+          - { label: "相册简介", name: "description", widget: "string" }
+          - label: "照片列表"
+            name: "photos"
+            widget: "list"
+            fields:
+              - { label: "照片链接", name: "image", widget: "string", hint: "粘贴 PicList 上传后的链接" }
+              - { label: "照片标题", name: "title", widget: "string" }
+              - { label: "拍摄地点", name: "location", widget: "string", hint: "例如：云南 · 大理" }
+              - { label: "拍摄日期", name: "date", widget: "string", hint: "例如：2026-11" }
+              - { label: "照片背后的故事", name: "desc", widget: "string" }
